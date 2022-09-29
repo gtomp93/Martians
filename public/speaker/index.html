@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Speaker</title>
+  </head>
+  <body>
+    <form>
+      <label> Enter sentence</label><input id="a" /><button type="submit">
+        submit
+      </button>
+    </form>
+    <script>
+      const sendMessage = (e) => {
+        let message = document.getElementById("a").value;
+
+        console.log("in here", message);
+        e.preventDefault();
+        fetch("/sendMessage", {
+          method: "POST",
+          body: JSON.stringify({ message }),
+          headers: { "content-type": "application/json" },
+        })
+          .then((res) => res.json())
+          .then((data) => console.log(data));
+      };
+
+      document.querySelector("form").addEventListener("submit", sendMessage);
+    </script>
+  </body>
+</html>
