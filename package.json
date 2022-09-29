@@ -1,0 +1,19 @@
+{
+  "name": "martians",
+  "version": "1.0.1",
+  "description": "Take-home exercise about Martian language",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "Candidate",
+  "license": "public domain",
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "socket.io": "^4.5.1",
+    "socket.io-client": "^4.5.1"
+  }
+}
