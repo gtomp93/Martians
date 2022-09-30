@@ -1,13 +1,19 @@
 // const { io } = require("socket.io-client");
 const socket = io("ws://localhost:3000");
 const syllables = ["B", "K", "L", "R", "Z"];
-const translations = { "B--BB-K---Z": "FOOD", "L-R-Z": "I", "KK-ZZ": "HATE" };
+const translations = {
+  "B--BB-K---Z": "FOOD",
+  "L-R-Z": "I",
+  "KK-ZZ": "HATE",
+  "B--K--Z": "unknown word",
+};
 
 let time = 0;
 let word = "";
 let syllableLength = 200;
 let checkForLastWord = null;
-let counter = 0;
+let fullTranslatedMessage = "";
+let fullMartianMessage = "";
 syllables.forEach((s) => {
   socket.on(s, (...args) => {
     console.log("received " + s + " at " + new Date().getTime());
@@ -19,7 +25,9 @@ syllables.forEach((s) => {
 
     console.log("hi", timeDiff);
     let numOfSilences = 0;
-    if (timeDiff > syllableLength * 5 + syllableLength && word) {
+    if (timeDiff > syllableLength * 10 + syllableLength && word) {
+      //We finished a sentence
+    } else if (timeDiff > syllableLength * 5 + syllableLength && word) {
       //We finished a word
       if (translations[word]) {
         let text = document.createElement("p");
