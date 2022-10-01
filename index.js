@@ -49,12 +49,12 @@ app.post("/sendMessage", (req, res) => {
     if (counter >= decodedMessage.length) {
       clearInterval(messageInterval);
     }
-  }, 200);
+  }, 150);
 });
 
 io.on("connection", (socket) => {
   connected = true;
-  console.log("a user connected");
+  console.log("a user connected here");
   socket.on("disconnect", () => {
     console.log("a user disconnected");
   });

@@ -10,44 +10,72 @@ const translations = {
 
 let time = 0;
 let word = "";
-let syllableLength = 200;
+let syllableLength = 150;
 let checkForLastWord = null;
 let fullTranslatedMessage = "";
 let fullMartianMessage = "";
+let testString = "";
+// console.log(lev()("kitten", "kippen"), "levenshtien");
+
 syllables.forEach((s) => {
   socket.on(s, (...args) => {
-    console.log("received " + s + " at " + new Date().getTime());
+    // console.log("received " + s + " at " + new Date().getTime());
+
+    if (args[0] && args[0].end === false) {
+      testString = args[0]?.test;
+      fullMartianMessage = "";
+      syllableLength = args[0]?.syllableLength;
+      document.querySelector("ul").innerHTML = "";
+      return;
+    }
+    if (args[0] && args[0].end === true) {
+      setTimeout(() => {
+        const levenshteinDistance = lev()(testString, fullMartianMessage);
+        console.log([
+          { passed: testString === fullMartianMessage },
+          { testString },
+          { fullMartianMessage },
+          { levenshteinDistance },
+        ]);
+      }, 13 * syllableLength);
+      return;
+    }
 
     let timeDiff = new Date().getTime() - time;
-    if (checkForLastWord) clearTimeout(checkForLastWord);
-    // counter++;
-    // console.log(counter);
 
-    console.log("hi", timeDiff);
+    if (checkForLastWord) clearTimeout(checkForLastWord);
+
+    // console.log("timeDiff", timeDiff);
     let numOfSilences = 0;
     if (timeDiff > syllableLength * 10 + syllableLength && word) {
       //We finished a sentence
-    } else if (timeDiff > syllableLength * 5 + syllableLength && word) {
+      fullTranslatedMessage += translations[word] + ".";
+      // console.log("ending Sentence");
+    } else if (timeDiff > syllableLength * 4.5 + syllableLength && word) {
       //We finished a word
       if (translations[word]) {
-        let text = document.createElement("p");
+        let text = document.createElement("li");
         text.innerText = translations[word];
-        document.querySelector("body").appendChild(text);
+        document.querySelector("ul").appendChild(text);
+        fullTranslatedMessage += translations[word];
       }
-      console.log("ending word");
+      // console.log("ending word");
       word = "";
-    } else if (time > (timeDiff + syllableLength) * 0.9 && word) {
+    } else if (timeDiff > syllableLength * 1.5 && word) {
       //add silent syllables
       numOfSilences = Math.round(timeDiff / syllableLength);
     }
-    word =
-      numOfSilences > 0 ? word + "-".repeat(numOfSilences - 1) + s : word + s;
+    let newSyllables =
+      numOfSilences > 0 ? "-".repeat(numOfSilences - 1) + s : s;
+    word += newSyllables;
+    fullMartianMessage += newSyllables;
 
-    console.log(word);
+    // console.log("word", word);
+
     time = new Date().getTime();
 
     checkForLastWord = setTimeout(() => {
-      console.log("here", word);
+      // console.log("here", word);
       if (translations[word]) {
         console.log("THERE");
         let text = document.createElement("p");
@@ -55,6 +83,7 @@ syllables.forEach((s) => {
         document.querySelector("body").appendChild(text);
       }
       word = "";
-    }, syllableLength * 10);
+      // console.log(fullTranslatedMessage);
+    }, syllableLength * 12);
   });
 });
