@@ -1,27 +1,23 @@
-const { socketIoObj, connected } = require("./index");
-const syllables = ["B", "K", "L", "R", "Z", "-", "-", "-"];
-const syllableLength = 150;
+const { socketIoObj, connected } = require("../index");
+const { sendTestMessages } = require("../send-test-messages");
+const syllables = ["B", "K", "L", "R", "Z", "-", "-", "-", "-"];
+const syllableLength = 500;
+const testStringLength = 20;
+
+console.log("ok");
 
 socketIoObj.on("connection", (socket) => {
   let testString = "B";
   console.log(Math.random(syllables.length));
-  while (testString.length < 10) {
+  while (testString.length < testStringLength) {
     testString += syllables[Math.floor(Math.random() * syllables.length)];
   }
   testString += "B";
   console.log({ testString });
 
-  socketIoObj.emit("B", { test: testString, syllableLength, end: false });
+  socketIoObj.emit("B", { testString, syllableLength, end: false });
 
-  let counter = 0;
-  let messageInterval = setInterval(() => {
-    socketIoObj.emit(testString[counter], {});
-    console.log("Emitting ", testString[counter], {});
-    if (counter >= testString.length - 1) {
-      socketIoObj.emit("B", { end: true });
-      clearInterval(messageInterval);
-    } else counter++;
-  }, syllableLength);
+  sendTestMessages(testString, socketIoObj, syllableLength);
 
   socket.on("disconnect", () => {
     console.log("a user disconnected");

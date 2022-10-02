@@ -1,6 +1,7 @@
 // This function is from the js-levenshtein module:
 // https://github.com/gustf/js-levenshtein
-
+// It is used for calculating the "Levenshtein Difference"
+// Between 2 strings
 "use strict";
 const lev = () => {
   function _min(d0, d1, d2, bx, ay) {
