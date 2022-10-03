@@ -1,78 +1,65 @@
 // const { io } = require("socket.io-client");
 const socket = io("ws://localhost:3000");
 const syllables = ["B", "K", "L", "R", "Z"];
-const translations = {
-  "B--BB-K---Z": "FOOD",
-  "L-R-Z": "I",
-  "KK-ZZ": "HATE",
-  "B--K--Z": "unknown word",
-};
+
 const TIME_DELAY = 10;
-let time = 0;
+let previousTime = 0;
 let word = "";
-let syllableLength = 150;
+let syllableLength = 200;
 let checkForLastWord = null;
 let fullTranslatedMessage = "";
 let testMode = false;
 let fullMartianMessage = "";
-let testString = "";
-let numSilences = 0;
+let martianTestString = "";
+let silenceLength = 0;
 let totalDelay = 0;
 let maxDelay = -Infinity;
-// console.log(lev()("kitten", "kippen"), "levenshtien");
 
 syllables.forEach((s) => {
   socket.on(s, (...args) => {
     // console.log("received " + s + " at " + new Date().getTime());
     if (document.getElementById("test")) {
-      document.getElementById("test").innerHTML = "";
+      document
+        .querySelector("body")
+        .removeChild(document.getElementById("test"));
     }
-    if (args[0] && args[0].end === false) {
-      ({ testString, syllableLength, numSilences } = args[0]);
+    if (args[0].syllableLength && args[0].end === false) {
+      ({ martianTestString, syllableLength, silenceLength } = args[0]);
+      console.log(martianTestString, syllableLength, silenceLength);
       fullMartianMessage = "";
+      fullTranslatedMessage = "";
       document.querySelector("ul").innerHTML = "";
       testMode = true;
       return;
     }
     if (args[0]?.end === true) {
       setTimeout(() => {
-        testMode = false;
-        const levenshteinDistance = lev()(testString, fullMartianMessage);
-        const averageDelayPerSilence =
-          totalDelay / (testString.match(/L/g).length - 1);
-        const delayPerSilentSyllable = averageDelayPerSilence / numSilences;
-        let passed = testString === fullMartianMessage;
-        console.log([
-          { passed },
-          { testString },
-          { fullMartianMessage },
-          { levenshteinDistance },
-          { averageDelayPerSilence },
-          { delayPerSilentSyllable },
-          { maxDelay },
-        ]);
-
-        addTestMessage(
-          testString,
+        endTest(
+          martianTestString,
           fullMartianMessage,
-          passed,
-          levenshteinDistance,
-          averageDelayPerSilence
+          silenceLength,
+          // 0,
+          totalDelay,
+          maxDelay
         );
-
+        testMode = false;
         totalDelay = 0;
         maxDelay = -Infinity;
+        silenceLength = 0;
       }, 13 * syllableLength);
       return;
     }
+    let currentTime = new Date().getTime();
 
-    let timeDiff = new Date().getTime() - time - TIME_DELAY;
+    let timeDiff = currentTime - previousTime - TIME_DELAY;
 
-    if (testMode && fullMartianMessage && numSilences) {
-      delay = new Date().getTime() - time - syllableLength * (numSilences + 1);
-      totalDelay += delay;
-      maxDelay = delay > maxDelay ? delay : maxDelay;
-      console.log(delay);
+    if (testMode) {
+      if (fullMartianMessage && silenceLength) {
+        let delay =
+          currentTime - previousTime - syllableLength * (silenceLength + 1);
+        totalDelay += delay;
+        maxDelay = delay > maxDelay ? delay : maxDelay;
+      }
     }
 
     if (checkForLastWord) clearTimeout(checkForLastWord);
@@ -81,43 +68,47 @@ syllables.forEach((s) => {
     let numOfSilences = 0;
     if (timeDiff > syllableLength * 10 + syllableLength && word) {
       //We finished a sentence
-      fullTranslatedMessage += translations[word] + ".";
-      // console.log("ending Sentence");
-    } else if (timeDiff > syllableLength * 4.96 + syllableLength && word) {
-      //We finished a word
       if (translations[word]) {
-        let text = document.createElement("li");
-        text.innerText = translations[word];
-        document.querySelector("ul").appendChild(text);
-        fullTranslatedMessage += translations[word];
+        postMessage(translations[word]);
+        fullTranslatedMessage += translations[word] + ". ";
+      }
+      postMessage("End sentence");
+      fullMartianMessage += "----------";
+      word = "";
+      // console.log("ending Sentence");
+    } else if (timeDiff > syllableLength * 5 + syllableLength && word) {
+      //We finished a word
+      console.log({ word, translated: translations[word] });
+      if (translations[word]) {
+        console.log("yaaaa");
+        postMessage(translations[word]);
+        fullTranslatedMessage += `${translations[word]} `;
       }
       // console.log("ending word");
       fullMartianMessage += "-----";
-
       word = "";
     } else if (timeDiff > syllableLength * 1.5 && word) {
       //add silent syllables
-      numOfSilences = Math.floor(timeDiff / syllableLength);
+      numOfSilences = Math.round(timeDiff / syllableLength);
     }
     let newSyllables =
       numOfSilences > 0 ? "-".repeat(numOfSilences - 1) + s : s;
     word += newSyllables;
     fullMartianMessage += newSyllables;
 
-    console.log("word", word);
+    previousTime = currentTime;
 
-    time = new Date().getTime();
+    console.log({ word });
 
     checkForLastWord = setTimeout(() => {
-      console.log("here", word);
+      console.log("here", word, fullMartianMessage);
       if (translations[word]) {
-        console.log("THERE");
-        let text = document.createElement("p");
-        text.innerText = translations[word];
-        document.querySelector("body").appendChild(text);
+        postMessage(translations[word]);
+        fullTranslatedMessage += translations[word];
       }
       word = "";
       console.log(fullTranslatedMessage);
-    }, syllableLength * 12);
+      postMessage(fullTranslatedMessage);
+    }, syllableLength * 13);
   });
 });

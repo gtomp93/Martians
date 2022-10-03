@@ -5,6 +5,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   border: 1px solid black;
+  max-width: 75%;
+  padding: 8px;
 }
 
 ul {
@@ -15,4 +17,11 @@ ul {
 li {
   position: relative;
   z-index: 0;
+  list-style-type: none;
+}
+
+button {
+  padding: 15px;
+  font: 30px;
+  font-weight: bold;
 }

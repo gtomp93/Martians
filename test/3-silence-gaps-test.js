@@ -1,24 +1,23 @@
 const { socketIoObj } = require("../index");
 const { sendTestMessages } = require("../send-test-messages");
 const syllableLength = 100;
-const testStringLength = 20;
-
+const martianTestStringLength = 20;
 socketIoObj.on("connection", (socket) => {
   //Make sure the test string starts with a letter
-  let testString = "L";
-  while (testString.length < testStringLength) {
-    testString += "---L";
+  let martianTestString = "L";
+  while (martianTestString.length < martianTestStringLength) {
+    martianTestString += "---L";
   }
-  console.log({ testString });
+  console.log({ martianTestString });
 
   socketIoObj.emit("L", {
-    testString,
+    martianTestString,
     syllableLength,
     end: false,
-    numSilences: 3,
+    silenceLength: 3,
   });
 
-  sendTestMessages(testString, socketIoObj, syllableLength);
+  sendTestMessages(martianTestString, socketIoObj, syllableLength);
 
   socket.on("disconnect", () => {
     console.log("a user disconnected");

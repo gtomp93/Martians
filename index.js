@@ -1,14 +1,17 @@
 const express = require("express");
 const app = express();
 const http = require("http");
-const { emit } = require("process");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
+const { translations } = require("./data/translations");
+const { encodeMessage } = require("./helpers");
 const io = new Server(server);
 let connected = false;
+const syllableLength = 200;
+
 app.use(express.static("public"));
 app.use(express.json());
-
+console.log("up here");
 app.get("/listener", (req, res) => {
   res.sendFile(__dirname + "/public/listener/index.html");
 });
@@ -20,22 +23,9 @@ app.get("/sender", (req, res) => {
 app.post("/sendMessage", (req, res) => {
   let message = req.body.message.toUpperCase();
   console.log(message);
-  const translations = {
-    FOOD: "B--BB-K---Z",
-    I: "L-R-Z",
-    HATE: "KK-ZZ",
-  };
+
   let counter = 0;
-  const decodedMessage = message.split(" ").reduce((fullMessage, word) => {
-    let encodedWord = translations[word.replace(/[.?!]/, "")]
-      ? translations[word.replace(/[.?!]/, "")]
-      : "B--K--Z";
-    let space = "-----";
-    let endSentence = "----------";
-    return word.slice(-1).match(/[.?!]/)
-      ? fullMessage + encodedWord + endSentence
-      : fullMessage + encodedWord + space;
-  }, "");
+  const decodedMessage = encodeMessage(message);
   console.log(decodedMessage);
 
   let messageInterval = setInterval(() => {
@@ -49,12 +39,12 @@ app.post("/sendMessage", (req, res) => {
     if (counter >= decodedMessage.length) {
       clearInterval(messageInterval);
     }
-  }, 150);
+  }, syllableLength);
 });
 
 io.on("connection", (socket) => {
-  connected = true;
   console.log("a user connected here");
+
   socket.on("disconnect", () => {
     console.log("a user disconnected");
   });
