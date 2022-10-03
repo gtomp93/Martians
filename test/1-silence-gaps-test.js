@@ -1,9 +1,8 @@
 const { socketIoObj } = require("../index");
-const { sendTestMessages } = require("../send-test-messages");
+const { sendTestMessages } = require("../helpers");
 const syllableLength = 50;
 const martianTestStringLength = 100;
 
-console.log("ok");
 socketIoObj.on("connection", (socket) => {
   //Make sure the test string starts with a letter
   let martianTestString = "L";
@@ -14,10 +13,11 @@ socketIoObj.on("connection", (socket) => {
   console.log({ martianTestString });
 
   socketIoObj.emit("L", {
-    martianTestString,
     syllableLength,
     end: false,
     silenceLength: 1,
+    martianTestString,
+    englishTestString: "",
   });
 
   sendTestMessages(martianmartianTestString, socketIoObj, syllableLength);

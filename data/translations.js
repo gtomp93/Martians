@@ -7,7 +7,7 @@ const translations = {
   PHILOSOPHY: "BKR-KK-ZZZ",
   NEED: "ZZ-KK",
   YOU: "Z-R-L",
-  rejoice: "ZZKK",
+  REJOICE: "ZZKK",
 };
 
 module.exports = { translations };

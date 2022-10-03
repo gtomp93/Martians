@@ -7,5 +7,5 @@ const translations = {
   "BKR-KK-ZZZ": "PHILOSOPHY",
   "ZZ-KK": "NEED",
   "Z-R-L": "YOU",
-  ZZKK: "rejoice",
+  ZZKK: "REJOICE",
 };

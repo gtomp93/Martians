@@ -21,7 +21,23 @@ li {
 }
 
 button {
-  padding: 15px;
+  padding: 10px;
   font: 30px;
   font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 34px;
+}
+
+h2 {
+  margin: 2px 0 2px;
+}
+p {
+  margin: 4px 0 4px;
+}
+header {
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }

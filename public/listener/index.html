@@ -9,10 +9,20 @@
   </head>
   <body>
     <main>
-      <h1>Martian Listener</h1>
+      <header>
+        <h1>Martian Listener</h1>
+        <button
+          id="clear"
+          onclick="(()=>{document.querySelector('ul').innerHTML=''})()"
+        >
+          Clear Messages
+        </button>
+      </header>
+
       <ul></ul>
     </main>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="./script.js"></script>
     <script src="./translations.js"></script>
     <script src="./js-levenshtein/index.js"></script>
     <script src="./add_test_message.js"></script>

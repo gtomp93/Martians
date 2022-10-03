@@ -4,7 +4,7 @@ const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const { translations } = require("./data/translations");
-const { encodeMessage } = require("./helpers");
+const { translateMessage } = require("./helpers");
 const io = new Server(server);
 let connected = false;
 const syllableLength = 200;
@@ -20,24 +20,33 @@ app.get("/sender", (req, res) => {
   res.sendFile(__dirname + "/public/speaker/index.html");
 });
 
+app.post("/sendRandomMessage", (req, res) => {
+  randomWords();
+});
+
 app.post("/sendMessage", (req, res) => {
+  if (connected) throw new Error("Message already in progress");
+  connected = true;
+
   let message = req.body.message.toUpperCase();
   console.log(message);
 
   let counter = 0;
-  const decodedMessage = encodeMessage(message);
-  console.log(decodedMessage);
+  const martianMessage = translateMessage(message);
+  console.log(martianMessage);
 
   let messageInterval = setInterval(() => {
-    let symbol = decodedMessage[counter];
+    let symbol = martianMessage[counter];
 
     counter++;
     console.log(symbol);
+
     if (symbol != "-") {
       io.emit(symbol, {});
     }
-    if (counter >= decodedMessage.length) {
+    if (counter >= martianMessage.length) {
       clearInterval(messageInterval);
+      connected = false;
     }
   }, syllableLength);
 });

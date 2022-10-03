@@ -7,10 +7,11 @@ let previousTime = 0;
 let word = "";
 let syllableLength = 200;
 let checkForLastWord = null;
-let fullTranslatedMessage = "";
+let fullEnglishMessage = "";
 let testMode = false;
 let fullMartianMessage = "";
 let martianTestString = "";
+let englishTestString = "";
 let silenceLength = 0;
 let totalDelay = 0;
 let maxDelay = -Infinity;
@@ -20,14 +21,16 @@ syllables.forEach((s) => {
     // console.log("received " + s + " at " + new Date().getTime());
     if (document.getElementById("test")) {
       document
-        .querySelector("body")
+        .querySelector("main")
         .removeChild(document.getElementById("test"));
     }
+
     if (args[0].syllableLength && args[0].end === false) {
-      ({ martianTestString, syllableLength, silenceLength } = args[0]);
-      console.log(martianTestString, syllableLength, silenceLength);
+      ({ martianTestString, syllableLength, silenceLength, englishTestString } =
+        args[0]);
       fullMartianMessage = "";
-      fullTranslatedMessage = "";
+      fullEnglishMessage = "";
+
       document.querySelector("ul").innerHTML = "";
       testMode = true;
       return;
@@ -37,8 +40,9 @@ syllables.forEach((s) => {
         endTest(
           martianTestString,
           fullMartianMessage,
+          englishTestString,
+          fullEnglishMessage,
           silenceLength,
-          // 0,
           totalDelay,
           maxDelay
         );
@@ -70,21 +74,19 @@ syllables.forEach((s) => {
       //We finished a sentence
       if (translations[word]) {
         postMessage(translations[word]);
-        fullTranslatedMessage += translations[word] + ". ";
+        fullEnglishMessage += translations[word] + ". ";
       }
       postMessage("End sentence");
       fullMartianMessage += "----------";
       word = "";
-      // console.log("ending Sentence");
     } else if (timeDiff > syllableLength * 5 + syllableLength && word) {
       //We finished a word
       console.log({ word, translated: translations[word] });
       if (translations[word]) {
         console.log("yaaaa");
         postMessage(translations[word]);
-        fullTranslatedMessage += `${translations[word]} `;
+        fullEnglishMessage += `${translations[word]} `;
       }
-      // console.log("ending word");
       fullMartianMessage += "-----";
       word = "";
     } else if (timeDiff > syllableLength * 1.5 && word) {
@@ -101,14 +103,12 @@ syllables.forEach((s) => {
     console.log({ word });
 
     checkForLastWord = setTimeout(() => {
-      console.log("here", word, fullMartianMessage);
       if (translations[word]) {
         postMessage(translations[word]);
-        fullTranslatedMessage += translations[word];
+        fullEnglishMessage += translations[word];
       }
       word = "";
-      console.log(fullTranslatedMessage);
-      postMessage(fullTranslatedMessage);
+      console.log(fullEnglishMessage, "lol");
     }, syllableLength * 13);
   });
 });
