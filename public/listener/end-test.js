@@ -42,6 +42,7 @@ const endTest = (
     { maxDelay: maxDelay !== -Infinity ? maxDelay : "N/A" },
   ]);
 
+  //Call this function to post the message to HTML/DOM
   addTestMessage(
     martianTestString,
     fullMartianMessage,

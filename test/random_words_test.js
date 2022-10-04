@@ -5,14 +5,14 @@ const {
   sendTestMessages,
 } = require("../helpers");
 const { translations } = require("../data/translations");
-const syllableLength = 200;
-const maxNumWords = 5;
+const syllableLength = 150;
+const numWords = 8;
 let connected = false;
 
 socketIoObj.on("connection", (socket) => {
   connected = true;
   //Create an array of random words (all valid words)
-  let randomWordsArray = generateRandomWords(maxNumWords);
+  let randomWordsArray = generateRandomWords(numWords);
 
   let randomWordsMessage = randomWordsArray.join(" ");
 

@@ -6,7 +6,7 @@ const {
   sendTestMessages,
 } = require("../helpers");
 const { translations } = require("../data/translations");
-const syllableLength = 150;
+const syllableLength = 100;
 const SILENCE_LENGTH = 20;
 const syllables = ["B", "K", "L", "R", "Z", "-", "-", "-", "-"];
 const maxNumWords = 5;
@@ -19,9 +19,7 @@ socketIoObj.on("connection", (socket) => {
     " "
   );
   let martianTestString = translateMessage(englishTestString).slice(0, -5);
-  console.log(englishTestString, translateMessage(englishTestString), {
-    martianTestString,
-  });
+
   //Take the first 2 syllables of a word to represent getting cut off
   //mid-sentence, then generate a period of silence based on the
   //silence_length variable, then add the ending of a random word to
@@ -40,9 +38,6 @@ socketIoObj.on("connection", (socket) => {
   englishTestString += secondHalfOfRandomWords;
 
   martianTestString += translateMessage(secondHalfOfRandomWords).slice(0, -10);
-
-  console.log(martianTestString);
-  console.log(englishTestString);
 
   socketIoObj.emit("L", {
     syllableLength,

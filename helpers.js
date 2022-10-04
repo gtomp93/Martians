@@ -1,12 +1,11 @@
 const { translations } = require("./data/translations");
-
+const newSentenceFrequency = 1 / 8;
 const translateMessage = (message) => {
   let wordsArray = message.trim().split(" ");
   return wordsArray.reduce((fullMessage, word, index) => {
     //Words at the end of a sentence will have a period, exclamation
     //point, or question mark at the end. I remove those from the word
     //before finding the martian translation
-    console.log(word, 1);
     wordWithoutPunctuation = word.replace(/[.?!]/, "");
     //Throw an error if there is no martian translation
     if (!(wordWithoutPunctuation in translations)) {
@@ -14,9 +13,9 @@ const translateMessage = (message) => {
     }
 
     let translatedWord = translations[wordWithoutPunctuation];
-    // if (index === message.length - 1) {
-    //   return fullMessage + word + "----------";
-    // }
+
+    //If word has a period, exclamation mark, or question mark at the end,
+    //add 10 silences. Otherwise add only 5.
     return word.slice(-1).match(/[.?!]/) || index === wordsArray.length - 1
       ? fullMessage + translatedWord + "----------"
       : fullMessage + translatedWord + "-----";
@@ -35,7 +34,8 @@ const transmitMessage = (martianMessage, syllableLength, connected, io) => {
       counter++;
       console.log({ symbol });
 
-      if (symbol != "-") {
+      //Emit the syllable if it is not "-"
+      if (symbol !== "-") {
         io.emit(symbol, {});
       }
       //If the end of the message is reached, clear the
@@ -52,7 +52,6 @@ const transmitMessage = (martianMessage, syllableLength, connected, io) => {
 
 const sendTestMessages = (martianTestString, socketIoObj, syllableLength) => {
   counter = 0;
-  console.log("ksjdkj");
   let messageInterval = setInterval(() => {
     if (martianTestString[counter] !== "-") {
       socketIoObj.emit(martianTestString[counter], {});

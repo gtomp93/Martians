@@ -8,7 +8,6 @@ socketIoObj.on("connection", (socket) => {
   while (martianTestString.length < martianTestStringLength) {
     martianTestString += "---L";
   }
-  console.log({ martianTestString });
 
   socketIoObj.emit("L", {
     syllableLength,

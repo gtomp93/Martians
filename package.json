@@ -4,8 +4,18 @@
   "description": "Take-home exercise about Martian language",
   "main": "src/index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "test": "jest --noStackTrace"
+    "start": "node index.js",
+    "test": "jest --noStackTrace",
+    "distracted": "node ./test/distracted-test.js",
+    "change-speed": "node ./test/change-speed.js",
+    "choking": "node ./test/choke-silence-test.js",
+    "random-words": "node ./test/random_words_test.js",
+    "random-syllables": "node ./test/random-syllable-test.js",
+    "5-gaps": "node ./test/5-silence-gaps-test",
+    "4-gaps": "node ./test/4-silence-gaps-test",
+    "3-gaps": "node ./test/3-silence-gaps-test",
+    "2-gaps": "node ./test/2-silence-gaps-test",
+    "1-gap": "node ./test/1-silence-gaps-test"
   },
   "author": "Candidate",
   "license": "public domain",

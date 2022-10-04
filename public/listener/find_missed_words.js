@@ -1,9 +1,6 @@
+//Looks through the noise to see if there are any words in there
+
 const findMissedWords = (string) => {
   let validWordsRegex = new RegExp(Object.keys(translations).join("|"), "g");
-  console.log({
-    string,
-    validWordsRegex,
-    missedWords: string.match(validWordsRegex),
-  });
   return string.match(validWordsRegex)?.map((word) => translations[word]);
 };

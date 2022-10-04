@@ -1,7 +1,7 @@
 const { socketIoObj } = require("../index");
 const { translateMessage, sendTestMessages } = require("../helpers");
 const { translations } = require("../data/translations");
-const syllableLength = 200;
+const syllableLength = 125;
 const syllables = ["B", "K", "L", "R", "Z", "-", "-", "-", "-"];
 const maxNumWords = 10;
 let connected = false;
@@ -42,15 +42,11 @@ if (!connected) {
     martianTestString = martianTestString.replace(
       /([BKLRZ]-{5}[BKLRZ]|[BKLRZ]-{10}[BKLRZ])/g,
       (match) => {
-        console.log({ match, matchCount, index: Math.round(maxNumWords / 2) });
-
         return ++matchCount === Math.round(maxNumWords / 2)
           ? match[0] + randomNoise + match.slice(-1)
           : match;
       }
     );
-    console.log(martianTestString);
-    console.log(randomWordsMessage + "hi");
 
     socketIoObj.emit("L", {
       syllableLength,

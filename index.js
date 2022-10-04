@@ -14,7 +14,7 @@ let messageQueue = [];
 
 app.use(express.static("public"));
 app.use(express.json());
-console.log("up here");
+
 app.get("/listener", (req, res) => {
   res.sendFile(__dirname + "/public/listener/index.html");
 });
