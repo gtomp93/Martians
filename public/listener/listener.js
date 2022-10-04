@@ -125,7 +125,6 @@ syllables.forEach((s) => {
         //aren't there, but this has not happened in testing. The posted message
         //will specify that these words may not be 100% accurate.
         let missedWords = findMissedWords(word);
-        console.log({ missedWords });
         if (missedWords) {
           fullEnglishMessage += missedWords.join(" ") + ". ";
           postMessage(missedWords.join(" ") + " " + "(possible translation)");

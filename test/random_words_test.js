@@ -19,9 +19,6 @@ socketIoObj.on("connection", (socket) => {
   //Trimming off the last 10 characters, which are "-"
   let martianTestString = translateMessage(randomWordsMessage).slice(0, -10);
 
-  console.log(martianTestString);
-  console.log(randomWordsMessage + "hi");
-
   socketIoObj.emit("L", {
     syllableLength,
     end: false,
