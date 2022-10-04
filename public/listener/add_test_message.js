@@ -26,7 +26,9 @@ const addTestMessage = (
   passedMessage.innerHTML = `<h2>Passed: ${passed}</h2>`;
   martianTestStringDisplay.innerHTML = `<h2>Martian Test Input</h2><p>${martianTestString}</p>`;
   fullMartianMessageDisplay.innerHTML = `<h2>Martian Test Result</h2><p>${fullMartianMessage}</p>`;
-  fullEnglishMessageDisplay.innerHTML = `<h2>English Test Input</h2><p>${englishTestString}</p>`;
+  fullEnglishMessageDisplay.innerHTML = `<h2>English Test Input</h2><p>${
+    englishTestString ? `${englishTestString}` : ""
+  }</p>`;
   englishTestStringDisplay.innerHTML = `<h2>English Test Result</h2><p>${fullEnglishMessage}</p>`;
   levenshteinDisplay.innerHTML = `<h2>Levenshtein Distance</h2><p>${levenshteinDistance}</p>`;
   averageDelayDisplay.innerHTML = `<h2>Socket Delay Error per Silent Syllable (ms)</h2><p>${averageDelayPerSilence}</p>`;

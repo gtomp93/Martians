@@ -38,4 +38,29 @@ const sendTestMessages = (martianTestString, socketIoObj, syllableLength) => {
   }, syllableLength);
 };
 
-module.exports = { translateMessage, sendTestMessages };
+const generateRandomWord = () => {
+  let validWords = Object.keys(translations);
+  return validWords[Math.floor(Math.random() * validWords.length)];
+};
+
+const generateRandomWords = (maxNumWords) => {
+  let randomWordsArray = [];
+  //Create an array of random words (all valid words)
+  while (randomWordsArray.length <= maxNumWords) {
+    //randomly pick a word from the list of valid words
+    word = generateRandomWord();
+    //randomly make about 1 in 8 words the end of a sentence.
+    //This value can be varied to represent shorter/longer avg sentences
+    if (Math.random() < 0.125 && randomWordsArray.length < maxNumWords)
+      word += ".";
+    randomWordsArray.push(word);
+  }
+  return randomWordsArray;
+};
+
+module.exports = {
+  translateMessage,
+  sendTestMessages,
+  generateRandomWords,
+  generateRandomWord,
+};

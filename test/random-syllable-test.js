@@ -1,8 +1,8 @@
 const { socketIoObj, connected } = require("../index");
-const { sendTestMessages } = require("../send-test-messages");
+const { sendTestMessages } = require("../helpers");
 const syllables = ["B", "K", "L", "R", "Z", "-", "-", "-", "-"];
 const syllableLength = 150;
-const martianTestStringLength = 20;
+const martianTestStringLength = 50;
 
 console.log("ok");
 
