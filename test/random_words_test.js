@@ -7,10 +7,10 @@ const {
 const { translations } = require("../data/translations");
 const syllableLength = 200;
 const maxNumWords = 5;
+let connected = false;
 
 socketIoObj.on("connection", (socket) => {
   connected = true;
-
   //Create an array of random words (all valid words)
   let randomWordsArray = generateRandomWords(maxNumWords);
 

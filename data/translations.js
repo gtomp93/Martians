@@ -8,6 +8,7 @@ const translations = {
   NEED: "ZZ-KK",
   YOU: "Z-R-L",
   REJOICE: "ZZKK",
+  LOVE: "ZL--RB",
 };
 
 module.exports = { translations };

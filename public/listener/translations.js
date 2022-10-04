@@ -8,4 +8,5 @@ const translations = {
   "ZZ-KK": "NEED",
   "Z-R-L": "YOU",
   ZZKK: "REJOICE",
+  "ZL--RB": "LOVE",
 };

@@ -24,18 +24,18 @@ syllables.forEach((s) => {
         .querySelector("main")
         .removeChild(document.getElementById("test"));
     }
-
+    if (args[0].newSpeed) syllableLength = args[0].newSpeed;
+    console.log(syllableLength);
     // This code only runs at the start of a test. It tells the listener
     // that the test is starting. It also tells the listener what message
     // is about to be received, in both martian and English, so that the
-    // listener can compare its output to these expected outputs when the
-    // the test is over in order to assess the listener's accuracy.
+    // listener can compare its actual output to these expected outputs
+    //when the test ends
     if (args[0].syllableLength && args[0].end === false) {
       ({ martianTestString, syllableLength, silenceLength, englishTestString } =
         args[0]);
       fullMartianMessage = "";
       fullEnglishMessage = "";
-
       document.querySelector("ul").innerHTML = "";
       testMode = true;
       return;
@@ -59,6 +59,7 @@ syllables.forEach((s) => {
         totalDelay = 0;
         maxDelay = -Infinity;
         silenceLength = 0;
+        fullEnglishMessage = "";
       }, 13 * syllableLength);
       return;
     }
@@ -149,6 +150,6 @@ syllables.forEach((s) => {
       postMessage(fullEnglishMessage, true);
       // fullEnglishMessage = "";
       console.log(fullEnglishMessage, "lol");
-    }, syllableLength * 13);
+    }, syllableLength * 12);
   });
 });
