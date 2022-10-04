@@ -25,7 +25,6 @@ syllables.forEach((s) => {
         .removeChild(document.getElementById("test"));
     }
     if (args[0].newSpeed) syllableLength = args[0].newSpeed;
-    console.log(syllableLength);
     // This code only runs at the start of a test. It tells the listener
     // that the test is starting. It also tells the listener what message
     // is about to be received, in both martian and English, so that the

@@ -23,6 +23,33 @@ const translateMessage = (message) => {
   }, "");
 };
 
+//Function for transmitting messages from the speaker to the listener which
+//returns a promise
+const transmitMessage = (martianMessage, syllableLength, connected, io) => {
+  let counter = 0;
+
+  return new Promise((resolve, reject) => {
+    let messageInterval = setInterval(() => {
+      let symbol = martianMessage[counter];
+
+      counter++;
+      console.log({ symbol });
+
+      if (symbol != "-") {
+        io.emit(symbol, {});
+      }
+      //If the end of the message is reached, clear the
+      //interval, resolve the promise, reset counter
+      if (counter >= martianMessage.length) {
+        clearInterval(messageInterval);
+        resolve(true);
+        counter = 0;
+        connected = false;
+      }
+    }, syllableLength);
+  });
+};
+
 const sendTestMessages = (martianTestString, socketIoObj, syllableLength) => {
   counter = 0;
   console.log("ksjdkj");
@@ -63,4 +90,5 @@ module.exports = {
   sendTestMessages,
   generateRandomWords,
   generateRandomWord,
+  transmitMessage,
 };

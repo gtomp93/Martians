@@ -1,3 +1,5 @@
+//Code for posting the test results window to the DOM.
+
 const addTestMessage = (
   martianTestString,
   fullMartianMessage,
@@ -23,6 +25,7 @@ const addTestMessage = (
   let levenshteinDisplay = document.createElement("p");
   let averageDelayDisplay = document.createElement("div");
   let closeButton = document.createElement("button");
+
   passedMessage.innerHTML = `<h2>Passed: ${passed}</h2>`;
   martianTestStringDisplay.innerHTML = `<h2>Martian Test Input</h2><p>${martianTestString}</p>`;
   fullMartianMessageDisplay.innerHTML = `<h2>Martian Test Result</h2><p>${fullMartianMessage}</p>`;
@@ -36,16 +39,7 @@ const addTestMessage = (
   closeButton.addEventListener("click", () => {
     main.removeChild(testMessageDiv);
   });
-  console.log(
-    passedMessage,
-    martianTestStringDisplay,
-    fullMartianMessageDisplay,
-    englishTestStringDisplay,
-    fullEnglishMessageDisplay,
-    levenshteinDisplay,
-    averageDelayDisplay,
-    closeButton
-  );
+
   testMessageDiv.append(
     passedMessage,
     martianTestStringDisplay,

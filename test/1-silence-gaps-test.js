@@ -20,7 +20,7 @@ socketIoObj.on("connection", (socket) => {
     englishTestString: "",
   });
 
-  sendTestMessages(martianmartianTestString, socketIoObj, syllableLength);
+  sendTestMessages(martianTestString, socketIoObj, syllableLength);
 
   socket.on("disconnect", () => {
     console.log("a user disconnected");

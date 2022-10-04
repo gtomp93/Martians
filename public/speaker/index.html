@@ -5,11 +5,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Speaker</title>
+    <style>
+      header {
+        display: flex;
+        align-items: center;
+      }
+      textarea {
+        margin: 0 8px;
+        width: 200px;
+      }
+    </style>
   </head>
   <body>
     <form>
-      <label> Enter sentence</label><textarea id="a"></textarea
-      ><button type="submit">submit</button>
+      <header>
+        <label> Enter Message</label><textarea id="a"></textarea
+        ><button type="submit">submit</button>
+      </header>
+      <p>Message must have proper spacing and only use valid words</p>
+      <p>
+        A sentence ends with a period followed by a space. Don't put a space at
+        the end of the message.
+      </p>
+
+      <p>
+        Valid words: Food, I, Vomit, Sleep, Philosophy, Need, You,Rejoice, Love
+      </p>
+      <p>Example message: I hate food. I love Food.</p>
+      <p></p>
     </form>
     <script>
       const sendMessage = (e) => {
