@@ -80,7 +80,7 @@ syllables.forEach((s) => {
         maxDelay = -Infinity;
         silenceLength = 0;
         fullEnglishMessage = "";
-      }, 13 * syllableLength);
+      }, 15 * syllableLength);
       return;
     }
     let currentTime = new Date().getTime();
@@ -149,6 +149,7 @@ syllables.forEach((s) => {
       } else {
         let missedWords = findMissedWords(word);
         if (missedWords) {
+          console.log({ missedWords });
           fullEnglishMessage += missedWords.join(" ") + " ";
           postMessage(missedWords.join(" ") + " " + "(possible translation)");
         }
@@ -182,6 +183,6 @@ syllables.forEach((s) => {
       postMessage(fullEnglishMessage, true);
       // fullEnglishMessage = "";
       console.log(fullEnglishMessage);
-    }, syllableLength * 12);
+    }, syllableLength * 13);
   });
 });

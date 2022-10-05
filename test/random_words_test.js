@@ -5,8 +5,8 @@ const {
   sendTestMessages,
 } = require("../helpers");
 const { translations } = require("../data/translations");
-const syllableLength = 150;
-const numWords = 8;
+const syllableLength = 80;
+const numWords = 12;
 let connected = false;
 
 socketIoObj.on("connection", (socket) => {
@@ -18,6 +18,8 @@ socketIoObj.on("connection", (socket) => {
 
   //Trimming off the last 10 characters, which are "-"
   let martianTestString = translateMessage(randomWordsMessage).slice(0, -10);
+
+  console.log(randomWordsMessage);
 
   socketIoObj.emit("L", {
     syllableLength,
