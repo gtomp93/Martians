@@ -12,7 +12,7 @@ let previousTime = 0;
 //current word
 let word = "";
 //current syllable length in miliseconds
-let syllableLength = 200;
+let syllableLength = 140;
 let checkForLastWord = null;
 
 //Flag representing whether app is currently in a test mode
@@ -84,7 +84,6 @@ syllables.forEach((s) => {
       return;
     }
     let currentTime = new Date().getTime();
-
     // Find the interval of time that has passed since the last message
     // was received. TIME_DELAY is a variable representing the added delay
     // error associated with the sockets. After some experimentation and
@@ -122,8 +121,8 @@ syllables.forEach((s) => {
         //If word was not found, check preceding signals to see
         //if there were any words in the data since the last word was posted.
         //This process could result in false positives, i.e. finding words that
-        //aren't there, but this has not happened in testing. The posted message
-        //will specify that these words may not be 100% accurate.
+        //aren't there. The posted message will specify that these words may not
+        //be 100% accurate.
         let missedWords = findMissedWords(word);
         if (missedWords) {
           fullEnglishMessage += missedWords.join(" ") + ". ";
@@ -171,7 +170,7 @@ syllables.forEach((s) => {
     previousTime = currentTime;
 
     //I set this timer to post the last word of the complete message. It will
-    //wait for 12 syllables to be sure it waits long enough to distinguish
+    //wait for 13 syllables to be sure it waits long enough to distinguish
     //from a sentence end. This timer gets cancelled if any new letters arrive,
     //since this triggers function to run again and post the word.
     checkForLastWord = setTimeout(() => {

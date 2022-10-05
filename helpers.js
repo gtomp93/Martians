@@ -42,9 +42,9 @@ const transmitMessage = (martianMessage, syllableLength, connected, io) => {
       //interval, resolve the promise, reset counter
       if (counter >= martianMessage.length) {
         clearInterval(messageInterval);
-        resolve(true);
         counter = 0;
         connected = false;
+        resolve(true);
       }
     }, syllableLength);
   });

@@ -8,7 +8,7 @@ const { translateMessage, transmitMessage } = require("./helpers");
 const io = new Server(server);
 
 let connected = false;
-const syllableLength = 200;
+const syllableLength = 150;
 
 let messageQueue = [];
 
@@ -27,7 +27,6 @@ app.get("/sender", (req, res) => {
 app.post("/api/speaker", async (req, res) => {
   //take the message and make it upperCase
   let message = req.body.message.toUpperCase();
-
   //Translate the message from English to Martian
   const martianMessage = translateMessage(message);
 
@@ -44,13 +43,15 @@ app.post("/api/speaker", async (req, res) => {
     //Transmit the message using the transmitMessage function, which returns
     //a promise. This function is defined in the helpers file.
     await transmitMessage(martianMessage, syllableLength, connected, io);
-    connected = false;
     //Clear out the message queue, if there is anything in it.
     while (messageQueue.length > 0) {
       await transmitMessage(messageQueue[0], syllableLength, connected, io);
       messageQueue.shift();
       if (messageQueue.length === 0) connected = false;
     }
+    connected = false;
+
+    return res.status(200).json({ status: 200, message: "message added" });
   }
 });
 
