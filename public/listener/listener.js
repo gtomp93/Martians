@@ -3,8 +3,7 @@ const socket = io("ws://localhost:3000");
 const syllables = ["B", "K", "L", "R", "Z"];
 
 //TIME_DELAY is a constant representing the added delay
-// error associated with the sockets round trip/travel time. After some
-// experimentation and testing I decided 10ms seemed like a good amount of time.
+// error associated with the sockets round trip/travel time.
 const TIME_DELAY = 2;
 
 //Time previous message was received
