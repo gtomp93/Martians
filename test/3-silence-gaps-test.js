@@ -1,6 +1,6 @@
 const { socketIoObj } = require("../index");
 const { sendTestMessages } = require("../helpers");
-const syllableLength = 100;
+const syllableLength = 150;
 const martianTestStringLength = 20;
 socketIoObj.on("connection", (socket) => {
   //Make sure the test string starts with a letter

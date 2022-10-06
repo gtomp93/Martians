@@ -5,7 +5,7 @@ const {
   sendTestMessages,
 } = require("../helpers");
 const { translations } = require("../data/translations");
-const syllableLength = 80;
+const syllableLength = 150;
 const numWords = 12;
 let connected = false;
 

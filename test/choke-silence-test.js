@@ -6,7 +6,7 @@ const {
   sendTestMessages,
 } = require("../helpers");
 const { translations } = require("../data/translations");
-const syllableLength = 100;
+const syllableLength = 150;
 const SILENCE_LENGTH = 20;
 const syllables = ["B", "K", "L", "R", "Z", "-", "-", "-", "-"];
 const maxNumWords = 5;
